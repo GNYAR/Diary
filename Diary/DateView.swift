@@ -65,6 +65,8 @@ struct DateView: View {
       } label: {
         Label(diary.weather.diplayName, systemImage: diary.weather.rawValue)
       }
+
+      QuoteCard()
     }
   }
 }
