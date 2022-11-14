@@ -16,40 +16,104 @@ enum Mood: String, CaseIterable, Identifiable {
   case terrible = "😵"
 }
 
-struct CardView: View {
-  @Binding var color: Color
-  @Binding var mood: Mood
-  @Binding var title: String
-  @Binding var story: String
+struct PreviewCard: View {
+  @Binding var diary: Diary
+  @Binding var showSheet: Bool
   
   var body: some View {
-    List {
-      VStack(alignment: .leading) {
-        Text("How are you?")
+    VStack(alignment: .leading) {
+      HStack {
+        Text(diary.mood.rawValue)
         
-        Picker("Mood", selection: $mood) {
-          ForEach(Mood.allCases) { x in
-            Text(x.rawValue)
+        Text(diary.title)
+        
+        Spacer()
+        
+        Image(systemName: "chevron.up.circle")
+          .foregroundColor(.accentColor)
+          .background(Circle().foregroundColor(.white))
+          .onTapGesture(perform: { showSheet = true })
+      }.font(.title)
+      
+      Spacer()
+    }
+    .frame(height: 100)
+    .padding()
+    .background(
+      RoundedRectangle(cornerRadius: 10)
+        .foregroundColor(diary.color)
+    )
+  }
+}
+
+struct EditCard: View {
+  @Binding var diary: Diary
+  @State var showMoodPicker = false
+  
+  var body: some View {
+    VStack {
+      DisclosureGroup(
+        isExpanded: $showMoodPicker,
+        content: {
+          Picker("Mood", selection: $diary.mood) {
+            ForEach(Mood.allCases) { x in
+              Text(x.rawValue)
+            }
+          }
+          .pickerStyle(SegmentedPickerStyle())
+          .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.white))
+        },
+        label: {
+          HStack {
+            Text(diary.date, style: .date)
+            
+            Spacer()
+            
+            HStack {
+              ColorPicker("Color", selection: $diary.color)
+                .padding(.horizontal)
+                .padding(.vertical, 4)
+                .labelsHidden()
+              
+              Divider().frame(height: 20)
+              
+              Text(diary.mood.rawValue)
+            }
+            .background(
+              Capsule()
+                .foregroundColor(.white)
+                .padding(.trailing, -28)
+            )
+            
+            
           }
         }
-        .pickerStyle(SegmentedPickerStyle())
+      ).labelStyle(TitleOnlyLabelStyle())
+      
+      Divider().padding(.bottom, 8)
+      
+      TextField("Title", text: $diary.title)
+        .font(.title3)
+        .padding(.horizontal)
+        .padding(.vertical, 4)
+        .background(
+          RoundedRectangle(cornerRadius: 5)
+            .foregroundColor(.white)
+        )
+      
+      VStack(alignment: .leading) {
+        Text("Write something...")
+          .padding(.top, 8)
+          .padding(.bottom, -4)
+        
+        TextEditor(text: $diary.story)
+          .frame(height: 400)
+          .clipShape(RoundedRectangle(cornerRadius: 5))
       }
       
-      ColorPicker("color", selection: $color)
-      
-      TextField("Title", text: $title)
-      
-      TextEditor(text: $story)
-        .lineLimit(10)
-        .padding(.leading, -4)
-        .opacity(story.isEmpty ? 0.25 : 1)
-        .background(
-          Text("Write something...")
-            .opacity(0.25)
-            .padding(.top, 8),
-          alignment: .topLeading)
-      
+      Spacer()
     }
-    
+    .padding()
+    .background(diary.color.padding(.vertical, -50))
   }
 }

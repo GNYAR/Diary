@@ -7,26 +7,40 @@
 
 import SwiftUI
 
-
+struct Diary: Identifiable {
+  let id = UUID()
+  
+  var date: Date = Date()
+  var weather: Weather = Weather.sunny
+  var mood: Mood = Mood.good
+  var color: Color = Color.green
+  var title: String = "ttt"
+  var story: String = "sss"
+}
 
 struct ContentView: View {
-  @State var selectedDate = Date()
-  @State var selectedWeather = Weather.sunny
-  @State private var selectedColor = Color.green
-  @State private var selectedMood = Mood.good
-  @State private var showDatepicker = true
-  @State private var title = ""
-  @State private var story = ""
+  @State var selectedDiary = Diary()
+  @State private var showEditCard = false
+  
   
   var body: some View {
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "yyy-MM-dd"
     
     return VStack(alignment:.leading) {
-      DateView(date: $selectedDate, weather: $selectedWeather)
-      CardView(color: $selectedColor, mood: $selectedMood, title: $title, story: $story)
+      DateView(diary: $selectedDiary)
+      
+      Spacer()
     }
     .padding(.horizontal)
+    .overlay(
+      PreviewCard(diary: $selectedDiary, showSheet: $showEditCard)
+        .offset(y: 60),
+      alignment: .bottom
+    )
+    .sheet(isPresented: $showEditCard) {
+      EditCard(diary: $selectedDiary)
+    }
   }
 }
 

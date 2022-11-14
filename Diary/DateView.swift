@@ -32,8 +32,7 @@ enum Weather: String, CaseIterable, Identifiable {
 }
 
 struct DateView: View {
-  @Binding var date: Date
-  @Binding var weather: Weather
+  @Binding var diary: Diary
   
   var body: some View {
     let dateformatter = DateFormatter()
@@ -42,28 +41,29 @@ struct DateView: View {
     return VStack(alignment:.leading) {
       DatePicker(
         "Pick a date",
-        selection: $date,
+        selection: $diary.date,
         in: ...Date(),
         displayedComponents: .date
       )
       .datePickerStyle(GraphicalDatePickerStyle())
       
       HStack {
-        Label(dateformatter.string(from: date), systemImage: "calendar")
+        Label(dateformatter.string(from: diary.date), systemImage: "calendar")
         
         Spacer()
         
-        Button("Today", action: {date = Date()})
+        Button("Today", action: {diary.date = Date()})
       }
+      
       DisclosureGroup {
-        Picker("Weather", selection: $weather) {
+        Picker("Weather", selection: $diary.weather) {
           ForEach(Weather.allCases) { x in
             Image(systemName: x.rawValue)
           }
         }
         .pickerStyle(SegmentedPickerStyle())
       } label: {
-        Label(weather.diplayName, systemImage: weather.rawValue)
+        Label(diary.weather.diplayName, systemImage: diary.weather.rawValue)
       }
     }
   }
