@@ -14,7 +14,7 @@
 		3B6BEB06291B9D560059F846 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6BEB05291B9D560059F846 /* DateView.swift */; };
 		3B6BEB09291BA14F0059F846 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6BEB08291BA14F0059F846 /* CardView.swift */; };
 		3BC9048E29226BC500797976 /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC9048D29226BC500797976 /* data.swift */; };
-		3BC90497292278DD00797976 /* QuoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC90496292278DD00797976 /* QuoteCard.swift */; };
+		3BC90497292278DD00797976 /* AdCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC90496292278DD00797976 /* AdCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		3B6BEB05291B9D560059F846 /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
 		3B6BEB08291BA14F0059F846 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		3BC9048D29226BC500797976 /* data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
-		3BC90496292278DD00797976 /* QuoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCard.swift; sourceTree = "<group>"; };
+		3BC90496292278DD00797976 /* AdCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				3B4F9C2A2909102B000EEB1F /* Preview Content */,
 				3B6BEB05291B9D560059F846 /* DateView.swift */,
 				3B6BEB08291BA14F0059F846 /* CardView.swift */,
-				3BC90496292278DD00797976 /* QuoteCard.swift */,
+				3BC90496292278DD00797976 /* AdCard.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 			files = (
 				3B6BEB06291B9D560059F846 /* DateView.swift in Sources */,
 				3B4F9C2729091021000EEB1F /* ContentView.swift in Sources */,
-				3BC90497292278DD00797976 /* QuoteCard.swift in Sources */,
+				3BC90497292278DD00797976 /* AdCard.swift in Sources */,
 				3B6BEB09291BA14F0059F846 /* CardView.swift in Sources */,
 				3BC9048E29226BC500797976 /* data.swift in Sources */,
 				3B4F9C2529091021000EEB1F /* DiaryApp.swift in Sources */,

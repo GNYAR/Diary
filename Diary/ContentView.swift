@@ -20,27 +20,32 @@ struct Diary: Identifiable {
 
 struct ContentView: View {
   @State var selectedDiary = Diary()
+  @State var showAdDetail = false
+  @State var quote = quotes.randomElement()!
+  @State var view = views.randomElement()!
   @State private var showEditCard = false
-  
   
   var body: some View {
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "yyy-MM-dd"
     
     return VStack(alignment:.leading) {
-      DateView(diary: $selectedDiary)
+      DateView(diary: $selectedDiary, showAdDetail: $showAdDetail, quote: $quote, view: $view)
+        .fullScreenCover(isPresented: $showAdDetail, content: {
+          AdInfo(isFullScreen: $showAdDetail , img: $view, str: quote)
+        })
       
       Spacer()
     }
     .padding(.horizontal)
     .overlay(
       PreviewCard(diary: $selectedDiary, showSheet: $showEditCard)
-        .offset(y: 60),
+        .offset(y: 60)
+        .sheet(isPresented: $showEditCard) {
+          EditCard(diary: $selectedDiary)
+        },
       alignment: .bottom
     )
-    .sheet(isPresented: $showEditCard) {
-      EditCard(diary: $selectedDiary)
-    }
   }
 }
 

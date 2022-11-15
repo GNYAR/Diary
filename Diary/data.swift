@@ -10,7 +10,7 @@
 let quotes = [
   "Action speak louder than words.",
   "Wasting time is robbing oneself.",
-  "Never say die",
+  "Never say die.",
   "Keep on going never give up.",
   "Never put off what you can do today until tomorrow.",
   "Believe in yourself.",

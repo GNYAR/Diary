@@ -33,6 +33,9 @@ enum Weather: String, CaseIterable, Identifiable {
 
 struct DateView: View {
   @Binding var diary: Diary
+  @Binding var showAdDetail: Bool
+  @Binding var quote: String
+  @Binding var view: String
   
   var body: some View {
     let dateformatter = DateFormatter()
@@ -46,6 +49,10 @@ struct DateView: View {
         displayedComponents: .date
       )
       .datePickerStyle(GraphicalDatePickerStyle())
+      .onChange(of: diary.date, perform: { value in
+        quote = quotes.randomElement()!
+        view = views.randomElement()!
+      })
       
       HStack {
         Label(dateformatter.string(from: diary.date), systemImage: "calendar")
@@ -65,8 +72,8 @@ struct DateView: View {
       } label: {
         Label(diary.weather.diplayName, systemImage: diary.weather.rawValue)
       }
-
-      QuoteCard()
+      
+      AdCard(isFullScreen: $showAdDetail, str: $quote, img: $view)
     }
   }
 }
