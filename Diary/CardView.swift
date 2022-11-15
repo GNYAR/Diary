@@ -16,6 +16,19 @@ enum Mood: String, CaseIterable, Identifiable {
   case terrible = "😵"
 }
 
+func moodToColor(x: Mood) -> Color {
+  switch x {
+  case .excellent:
+    return Color(.systemPink)
+  case .good:
+    return Color(.systemGreen)
+  case .bad:
+    return Color(.systemBlue)
+  case .terrible:
+    return Color(.systemGray)
+  }
+}
+
 struct PreviewCard: View {
   @Binding var diary: Diary
   @Binding var showSheet: Bool
@@ -49,6 +62,7 @@ struct PreviewCard: View {
 struct EditCard: View {
   @Binding var diary: Diary
   @State var showMoodPicker = false
+  @State var showAlert = false
   
   var body: some View {
     VStack {
@@ -60,6 +74,9 @@ struct EditCard: View {
               Text(x.rawValue)
             }
           }
+          .onChange(of: diary.mood, perform: { value in
+            showAlert = true
+          })
           .pickerStyle(SegmentedPickerStyle())
           .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.white))
         },
@@ -115,5 +132,12 @@ struct EditCard: View {
     }
     .padding()
     .background(diary.color.padding(.vertical, -50))
+    .alert(isPresented: $showAlert, content: {
+      Alert(
+        title: Text("Apply to the color?"),
+        primaryButton: .default(Text("OK"), action: { diary.color = moodToColor(x: diary.mood) }),
+        secondaryButton: .cancel()
+      )
+    })
   }
 }

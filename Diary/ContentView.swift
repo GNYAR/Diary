@@ -13,9 +13,9 @@ struct Diary: Identifiable {
   var date: Date = Date()
   var weather: Weather = Weather.sunny
   var mood: Mood = Mood.good
-  var color: Color = Color.green
-  var title: String = "ttt"
-  var story: String = "sss"
+  var color: Color = moodToColor(x: Mood.good)
+  var title: String = "Title"
+  var story: String = "I feel good."
 }
 
 struct ContentView: View {
