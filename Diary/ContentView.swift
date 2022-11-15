@@ -16,6 +16,8 @@ struct Diary: Identifiable {
   var color: Color = moodToColor(x: Mood.good)
   var title: String = "Title"
   var story: String = "I feel good."
+  var hasWork: Bool = false
+  var workHours: Float = 0
 }
 
 struct ContentView: View {

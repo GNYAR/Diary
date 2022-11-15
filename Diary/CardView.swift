@@ -61,74 +61,37 @@ struct PreviewCard: View {
 
 struct EditCard: View {
   @Binding var diary: Diary
-  @State var showMoodPicker = false
   @State var showAlert = false
   
   var body: some View {
     VStack {
-      DisclosureGroup(
-        isExpanded: $showMoodPicker,
-        content: {
-          Picker("Mood", selection: $diary.mood) {
-            ForEach(Mood.allCases) { x in
-              Text(x.rawValue)
-            }
-          }
-          .onChange(of: diary.mood, perform: { value in
-            showAlert = true
-          })
-          .pickerStyle(SegmentedPickerStyle())
-          .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.white))
-        },
-        label: {
-          HStack {
-            Text(diary.date, style: .date)
-            
-            Spacer()
-            
-            HStack {
-              ColorPicker("Color", selection: $diary.color)
-                .padding(.horizontal)
-                .padding(.vertical, 4)
-                .labelsHidden()
-              
-              Divider().frame(height: 20)
-              
-              Text(diary.mood.rawValue)
-            }
-            .background(
-              Capsule()
-                .foregroundColor(.white)
-                .padding(.trailing, -28)
-            )
-            
-            
-          }
-        }
-      ).labelStyle(TitleOnlyLabelStyle())
+      CardHeader(diary: $diary, showAlert: $showAlert)
       
       Divider().padding(.bottom, 8)
       
-      TextField("Title", text: $diary.title)
-        .font(.title3)
-        .padding(.horizontal)
-        .padding(.vertical, 4)
-        .background(
-          RoundedRectangle(cornerRadius: 5)
-            .foregroundColor(.white)
-        )
-      
-      VStack(alignment: .leading) {
-        Text("Write something...")
-          .padding(.top, 8)
-          .padding(.bottom, -4)
+      Form {
+        Toggle("Did you work today?", isOn: $diary.hasWork)
         
-        TextEditor(text: $diary.story)
-          .frame(height: 400)
-          .clipShape(RoundedRectangle(cornerRadius: 5))
+        if(diary.hasWork) {
+          VStack(alignment: .leading) {
+            Text("How long have you worked?")
+            
+            Stepper("\(diary.workHours, specifier: "%.2f")", value: $diary.workHours, in: 0...24)
+            
+            Slider(value: $diary.workHours, in: 0...24)
+          }
+        }
+        
+        Section(header: Text("Write something...").textCase(.none)) {
+          TextField("Title", text: $diary.title)
+            .font(.title3)
+          
+          TextEditor(text: $diary.story)
+            .frame(height: 200)
+        }
       }
-      
-      Spacer()
+      .clipShape(RoundedRectangle(cornerRadius: 10))
+      .animation(.linear)
     }
     .padding()
     .background(diary.color.padding(.vertical, -50))
@@ -139,5 +102,54 @@ struct EditCard: View {
         secondaryButton: .cancel()
       )
     })
+  }
+}
+
+struct CardHeader: View {
+  @Binding var diary: Diary
+  @Binding var showAlert: Bool
+  @State var showMoodPicker = false
+  
+  var body: some View {
+    DisclosureGroup(
+      isExpanded: $showMoodPicker,
+      content: {
+        Picker("Mood", selection: $diary.mood) {
+          ForEach(Mood.allCases) { x in
+            Text(x.rawValue)
+          }
+        }
+        .onChange(of: diary.mood, perform: { value in
+          showAlert = true
+        })
+        .pickerStyle(SegmentedPickerStyle())
+        .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.white))
+      },
+      label: {
+        HStack {
+          Text(diary.date, style: .date)
+          
+          Spacer()
+          
+          HStack {
+            ColorPicker("Color", selection: $diary.color)
+              .padding(.horizontal)
+              .padding(.vertical, 4)
+              .labelsHidden()
+            
+            Divider().frame(height: 20)
+            
+            Text(diary.mood.rawValue)
+          }
+          .background(
+            Capsule()
+              .foregroundColor(.white)
+              .padding(.trailing, -28)
+          )
+          
+          
+        }
+      }
+    ).labelStyle(TitleOnlyLabelStyle())
   }
 }
